@@ -22,7 +22,7 @@ let config = {
     plugins: [
         //Paramétrage du plugin html-webpack-plugin permettant l'export d'un fichier HTML au build
         new HtmlWebpackPlugin({
-            title: 'Starter webpack',
+            title: 'Player JavaScript',
             filename: 'index.html',
             minify: false,
             template: './src/components/templates/index.html',
