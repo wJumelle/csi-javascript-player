@@ -3,6 +3,7 @@
 ## Sommaire
 1. [**Initialisation du projet à l'aide de Node.JS**](#initialisation-du-projet)
 2. [**API SoundCloud**](#api-soundcloud)
+3. [**02 octobre 2021 - Mise en place du player**](#02-octobre-2021)
 
 ## Initialisation du projet
 
@@ -27,7 +28,11 @@ Ce que l'on va chercher à obtenir pour notre audio de test de ce player JavaScr
 2. `duration` la durée de l'audio 
 3. `artwork_url` la vignette de l'audio
 4. `genre` le genre de l'audio (pour tagger l'audio)
-5. `http_mp3_128_url` l'URL de stream de l'audio qui servira de source à notre élément `<audio>`  
+5. `http_mp3_128_url` l'URL de stream de l'audio qui servira de source à notre élément `<audio>` 
+
+## 02 octobre 2021
+
+
 
 > ### 💡 Guidelines SASS en français
 > Voici les guidelines à suivre pour [**SASS**](https://sass-guidelin.es/fr/).
