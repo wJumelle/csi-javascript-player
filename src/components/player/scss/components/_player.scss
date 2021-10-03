@@ -7,11 +7,12 @@
     flex-direction: row;
     align-items: center;
     gap: 20px;
-    padding: 25px;
+    padding: 35px 25px 25px;
     overflow: hidden;
     border-radius: 5px;
-    color: $clr-primary;
     background: inherit;
+    min-width: 400px;
+    color: $clr-primary;
 
     &::before {
         content: '';
@@ -27,30 +28,6 @@
     }
 }
 
-.player__progressBar-container,
-.player__progressBar-innerContainer,
-.player__progressBar,
-.player__progressBar-buffer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10px;
-}
-
-.player__progressBar {
-    width: 50%;
-    height: 10px;
-    background: $clr-secondary;
-    z-index: 10;
-}
-
-.player__progressBar-buffer {
-    width: 100%;
-    height: 10px;
-    background: $clr-primary;
-}
-
 .player__container .controls {
     // Reset button styles
     border: none;
@@ -62,4 +39,33 @@
     & > svg {
         width: 25px;
     }
+}
+
+.player__progressBar-container,
+.player__progressBar-innerContainer,
+.player__progressBar,
+.player__progressBar-buffer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+}
+
+.player__progressBar.controls {
+    width: 50%;
+    height: 10px;
+    background: $clr-secondary;
+    z-index: 10;
+}
+
+.player__progressBar-buffer.controls {
+    width: 100%;
+    height: 10px;
+    background: $clr-primary;
+}
+
+.player__timer-container {
+    flex: 1 1 auto;
+    text-align: right;
 }

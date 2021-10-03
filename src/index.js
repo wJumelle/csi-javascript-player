@@ -66,7 +66,7 @@ player__btnBackward.innerHTML = svg_btnBackward;
 player__btnForward.innerHTML = svg_btnForward;
 player__btnVolume.innerHTML = svg_btnVolume.medium;
 player__timer_currentTime.innerHTML = "0:00";
-player__timer_totalTime.innerHTML = " / 0:00";
+player__timer_totalTime.innerHTML = "0:00";
 
 // On ajoute les éléments aux différents containers
 player__btnPlayPause_container.appendChild(player__btnPlayPause);
@@ -74,6 +74,7 @@ player__btnBackward_container.appendChild(player__btnBackward);
 player__btnForward_container.appendChild(player__btnForward);
 player__btnVolume_container.appendChild(player__btnVolume);
 player__timer_container.appendChild(player__timer_currentTime);
+player__timer_container.appendChild(document.createTextNode(' / '));
 player__timer_container.appendChild(player__timer_totalTime);
 player__progressBar_innerContainer.appendChild(player__progressBar);
 player__progressBar_innerContainer.appendChild(player__progressBar_buffer);
@@ -87,7 +88,13 @@ player__container.appendChild(player__btnForward_container);
 player__container.appendChild(player__btnVolume_container);
 player__container.appendChild(player__timer_container);
 
+// On créé l'élément audio sans SRC
+const elAudio = new Audio();
+elAudio.src = "https://soundcloud.com/universcience-2/belle-lune-1";
+elAudio.id = "audioElement";
+
 // Ajout du player dans le container global
+global_container.appendChild(elAudio);
 global_container.appendChild(player__container);
 
 // Ajout du container dans le body
@@ -96,3 +103,132 @@ document.body.appendChild(global_container);
 // Signature
 console.log("%c🚀 Player in native JavaScript", "font-size: 1.5rem; padding: 20px 10px; margin: 0; background: hsl(271deg 49% 17% / 50%);");
 console.log("%cBy Wilfried Jumelle - wjumelle@gmail.com", "font-size: 1rem; font-weight: bold;");
+
+/**
+ * Début du traitement de SoundCloud
+ */
+
+// Fonction qui permet de récupérer l'URL du média streamable à partir d'une URL simple SoundCloud
+// Ex d'url : https://soundcloud.com/universcience-2/palito-et-le-secret-de-la-cabosse
+// Params : l'élément <audio> et l'URL simple SoundCloud
+function URLToResolve(elem, url){
+    console.log('URLToResolve()', elem);
+    const streamableUrl = "https://cf-media.sndcdn.com/UNiKAPqgeTHO.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vVU5pS0FQcWdlVEhPLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjMzMjgxNzU2fX19XX0_&Signature=bgoxwZsctpzsCtXTEma9vq-kDO96HdxJ0eUnarqwHRaXtuogYZPLnPCS-6gi6WN31ZkRXptNW1EBf4wHzdxBwq3m0mW6pZ7XiY5ZZAhupip0WwRjXj1wLUW2ds1ZrqJLx7i0R8YinhrWqSsgTf-NJQw-XfN4gjpApHq65oi9tj9hblvAJX1KTQqqo74A6PFjkx8js6cYetwLirTyF1t6AFv4mWLcVJ4FGE6WjjWTNnvh~wMCcF~lf6m1MGRGeQh39Y3K8H9Om8tJDtHcZG9yv4gCQR2RzMqDwdekyUW4H1eGiyq17v3NmGpGS5Mnjb0UfYiNz2GQY9HDV86jInsOoQ__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ";
+    elem.src = streamableUrl;
+    initPlayer(elem);
+}
+
+// Fonction qui initialise le player Plyr
+// Params : l'élément <audio> les options de configuration de Plyr
+function initPlayer(elem) {
+    console.log('initPlayer()', elem);
+
+    // On bind les boutons 
+    player__btnPlayPause.addEventListener('click', function(){
+        if(elem.paused) {
+            elem.play();
+            player__btnPlayPause.innerHTML = svg_btnPause;
+        } else {
+            elem.pause();
+            player__btnPlayPause.innerHTML = svg_btnPlay;
+        }
+    });
+
+    player__btnBackward.addEventListener('click', function(){
+        const cur = elem.currentime;
+        const nextTimer = 0;
+        (cur - 15 < 0) ? nextTimer = 0 : nextTimer = (cur - 15);
+        elem.currentime = nextTimer;
+    });
+
+    player__btnForward.addEventListener('click', function(){
+        const cur = elem.currentime;
+        const dur = elem.duration;
+        const nextTimer = 0;
+        (cur + 15 > dur) ? nextTimer = 0 : nextTimer = (cur + 15);
+        elem.currentime = nextTimer;
+        if(nextTimer == 0) {
+            elem.pause();
+        }
+    });
+
+    player__btnVolume.addEventListener('click', function(){
+        if(elem.volume > 0) {
+            elem.volume = 0;
+            player__btnVolume.innerHTML = svg_btnVolume.muted;
+        } else {
+            elem.volume = 50;
+            player__btnVolume.innerHTML = svg_btnVolume.medium;
+        }
+    });
+
+    // On bind des events liés au player
+	elem.addEventListener('error', function(event) {
+		var errorStatus = "initPlayer JS : Player ERORR";
+		console.error(errorStatus);
+	});
+
+    elem.addEventListener('timeupdate', function(event) {
+        // Mise à jour de la progressBar
+        var duration = elem.duration,
+            currTime = elem.currentTime,
+            frac = currTime / duration,
+            progress = Math.round(frac * 100), //% du temps passé
+            buffered = elem.buffered.end(elem.buffered),
+            fracBuff = buffered / duration,
+            progressBuffer = Math.round(fracBuff * 100);
+
+        updateProgress(player__progressBar, progress, player__timer_currentTime, currTime, duration);
+        updateBuffer(player__progressBar_buffer, progressBuffer);
+
+        // Mise à jour du currentTime
+        if(elem.currentTime) {
+            player__timer_currentTime.innerHTML = formatTime(elem.currentTime);
+        } else {
+            console.log('Lol');
+            player__timer_currentTime.innerHTML = formatTime(0);
+        }
+    });
+
+	elem.addEventListener('canplay', function(event) {
+        player__timer_totalTime.innerHTML = formatTime(elem.duration);
+	});
+}
+
+// Fonction de mise à jours de la bar de progression pour l'avancée
+function updateProgress(bar, prog, timer, curr, duration) {
+    bar.style.width = prog+'%';
+    timer.innerHTML = formatTime(curr) + ' / ' + formatTime(duration);
+}
+
+// Fonction de mise à jours de la bar de loaded
+function updateBuffer(bar, prog) {
+    bar.style.width = prog+'%';
+}
+
+// Fonction de formattage de l'affichage de la date
+function formatTime(time) {
+    var hours = Math.floor(time / 3600),
+        mins  = Math.floor((time % 3600) / 60),
+        secs  = Math.floor(time % 60);
+
+    if(secs < 10) {
+        secs = '0'+secs;
+    }
+
+    if(hours) {
+        if(mins < 10) {
+            mins = '0'+mins;
+        }
+
+        return hours + ':' + mins + ':' + secs; 
+    } else {
+        return mins + ':' + secs; 
+    }
+}
+
+// Lorsque le DOM a fini de se charger on le parcourt à la recherche de tous les players
+// On exécute pour chacun la fonction URLToResolve() qui va chercher l'URL streamable du média SoundCloud
+document.addEventListener("DOMContentLoaded", function() {
+    URLToResolve(elAudio, elAudio.src);
+});
