@@ -2,15 +2,29 @@
 
 .player__container {
     position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 20px;
     padding: 25px;
-    background: $player-background-color;
     overflow: hidden;
     border-radius: 5px;
     color: $clr-primary;
+    background: inherit;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+        filter: blur(75px);
+        background: inherit;
+        z-index: -1;
+    }
 }
 
 .player__progressBar-container,
@@ -44,4 +58,8 @@
     color: $clr-primary;
     font-size: 1rem;
     cursor: pointer;
+
+    & > svg {
+        width: 25px;
+    }
 }

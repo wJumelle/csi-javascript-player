@@ -21,7 +21,7 @@ h1 {
     padding: 50px 50px 50px 35px;
     background: $title-background-color;
     font-family: "Montserrat Alternate Bold", sans-serif;
-    color: #FFF;
+    color: $clr-primary;
 }
 
 h1 img {
@@ -33,5 +33,5 @@ h1 img {
     padding: 50px;
     background: $title-background-color;
     font-family: "Montserrat Alternate Bold", sans-serif;
-    color: #FFF;
+    color: $clr-primary;
 }
