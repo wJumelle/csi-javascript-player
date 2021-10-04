@@ -113,7 +113,7 @@ console.log("%cBy Wilfried Jumelle - wjumelle@gmail.com", "font-size: 1rem; font
 // Params : l'élément <audio> et l'URL simple SoundCloud
 function URLToResolve(elem, url){
     console.log('URLToResolve()', elem);
-    const streamableUrl = "https://cf-media.sndcdn.com/UNiKAPqgeTHO.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vVU5pS0FQcWdlVEhPLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjMzMjgxNzU2fX19XX0_&Signature=bgoxwZsctpzsCtXTEma9vq-kDO96HdxJ0eUnarqwHRaXtuogYZPLnPCS-6gi6WN31ZkRXptNW1EBf4wHzdxBwq3m0mW6pZ7XiY5ZZAhupip0WwRjXj1wLUW2ds1ZrqJLx7i0R8YinhrWqSsgTf-NJQw-XfN4gjpApHq65oi9tj9hblvAJX1KTQqqo74A6PFjkx8js6cYetwLirTyF1t6AFv4mWLcVJ4FGE6WjjWTNnvh~wMCcF~lf6m1MGRGeQh39Y3K8H9Om8tJDtHcZG9yv4gCQR2RzMqDwdekyUW4H1eGiyq17v3NmGpGS5Mnjb0UfYiNz2GQY9HDV86jInsOoQ__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ";
+    const streamableUrl = "https://cf-media.sndcdn.com/UNiKAPqgeTHO.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vVU5pS0FQcWdlVEhPLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjMzMzMyNzU4fX19XX0_&Signature=D3X3jGkhw5UCnF2fZNXpNqKBAO3LMfXZYGm8uuwu~4A1icLuLZatJ-PCWd7m44rJgC9frFGZ6mhgr07GNBaD8QBJWUoLhuUnYDo2gWcJyUvrci7Yek2ItdT5PXhhr~fztvnsFDVmm~BLeAhf774cAMAgruWY5Cy1IWvf25O7eLRjvSixKSzyeSG5sqFj2M2TaHGSjdsr~nPvIJUF5vgTj6WL-yLzE2YhiuBRi2ZnmnSIfpP30wohRvZkvyUlChNoG9neU4HX4hItF7m~~PIx9BERrbgoRpNgqBVVLz6pOwsqsuFzCz15acvkcqQQgIobhewUECHKnfrvxINXftT3XQ__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ";
     elem.src = streamableUrl;
     initPlayer(elem);
 }
@@ -157,7 +157,7 @@ function initPlayer(elem) {
             elem.volume = 0;
             player__btnVolume.innerHTML = svg_btnVolume.muted;
         } else {
-            elem.volume = 50;
+            elem.volume = .5;
             player__btnVolume.innerHTML = svg_btnVolume.medium;
         }
     });
