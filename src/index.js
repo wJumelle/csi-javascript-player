@@ -113,7 +113,7 @@ console.log("%cBy Wilfried Jumelle - wjumelle@gmail.com", "font-size: 1rem; font
 // Params : l'élément <audio> et l'URL simple SoundCloud
 function URLToResolve(elem, url){
     console.log('URLToResolve()', elem);
-    const streamableUrl = "https://cf-media.sndcdn.com/UNiKAPqgeTHO.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vVU5pS0FQcWdlVEhPLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjMzMzMyNzU4fX19XX0_&Signature=D3X3jGkhw5UCnF2fZNXpNqKBAO3LMfXZYGm8uuwu~4A1icLuLZatJ-PCWd7m44rJgC9frFGZ6mhgr07GNBaD8QBJWUoLhuUnYDo2gWcJyUvrci7Yek2ItdT5PXhhr~fztvnsFDVmm~BLeAhf774cAMAgruWY5Cy1IWvf25O7eLRjvSixKSzyeSG5sqFj2M2TaHGSjdsr~nPvIJUF5vgTj6WL-yLzE2YhiuBRi2ZnmnSIfpP30wohRvZkvyUlChNoG9neU4HX4hItF7m~~PIx9BERrbgoRpNgqBVVLz6pOwsqsuFzCz15acvkcqQQgIobhewUECHKnfrvxINXftT3XQ__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ";
+    const streamableUrl = "https://cf-media.sndcdn.com/UNiKAPqgeTHO.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vVU5pS0FQcWdlVEhPLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNjMzNjM2ODEyfX19XX0_&Signature=P3ixvWliJo6IIJ8OdX7ePHcqqRQXqPSmt-9Oa6LHn6OMhpGLQBfJCkVaE7vhgCwHYA9jwUj8scIcQGNfN1JneX5cIwMQb8M3CWF0fFMqzJ2Ohcws1wV5ctayXXKcfzsOLLe-ISdlyG15jVo46oAwQC3bqzm9x7fMCCwf6EnuHwQOQ7xr3SZhVI7DtrLYb793M~5ywVPvCQecHO9J4PHszvXS7S-ESMf0nW0b6xvDLF4RC6NcEW0cOuHXT0TN0wgyBWM35oc3DBIICHdaP9InPjFSgD5cleECfSceJTYqlY8MGje5G7OPhTK6tzHl0xd6JyhgSijkxJEF5xaJ0v1IQA__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ";
     elem.src = streamableUrl;
     initPlayer(elem);
 }
