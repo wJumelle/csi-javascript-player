@@ -1,7 +1,7 @@
 @use '../abstract' as *;
 
 body {
-    min-height: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -9,6 +9,7 @@ body {
     align-items: center;
     background: url('../images/bkg.jpg');
     background-size: cover;
+    overflow: hidden;
 }
 
 h1 {

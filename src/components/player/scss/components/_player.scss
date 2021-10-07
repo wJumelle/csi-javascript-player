@@ -1,7 +1,11 @@
 @use '../abstract' as *;
 
 .player__container {
-    position: relative;
+    position: absolute;
+    bottom: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
     z-index: 1;
     display: flex;
     flex-direction: row;
@@ -9,10 +13,9 @@
     gap: 20px;
     padding: 35px 25px 25px;
     overflow: hidden;
-    border-radius: 5px;
     background: inherit;
-    min-width: 400px;
     color: $clr-primary;
+    animation: .5s ease-in-out slidein forwards;
 
     &::before {
         content: '';
@@ -21,9 +24,9 @@
         left: 0;
         right: 0;
         bottom: 0;
-        box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
-        filter: blur(75px);
-        background: inherit;
+        // box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+        background: $title-background-color;
+        // filter: blur(75px);
         z-index: -1;
     }
 }
@@ -53,10 +56,11 @@
 }
 
 .player__progressBar.controls {
-    width: 50%;
+    width: 0%;
     height: 10px;
     background: $clr-secondary;
     z-index: 10;
+    transition: width 1s linear;
 }
 
 .player__progressBar-buffer.controls {
@@ -68,4 +72,5 @@
 .player__timer-container {
     flex: 1 1 auto;
     text-align: right;
+    font-family: "Montserrat Alternate Bold", sans-serif;
 }

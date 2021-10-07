@@ -94,8 +94,29 @@ elAudio.src = "https://soundcloud.com/universcience-2/belle-lune-1";
 elAudio.id = "audioElement";
 
 // Ajout du player dans le container global
-global_container.appendChild(elAudio);
-global_container.appendChild(player__container);
+// global_container.appendChild(elAudio);
+// global_container.appendChild(player__container);
+
+// Ajout du bouton de lancement du podcast + durée
+const launcher_container = document.createElement('div'); 
+const launcher_button = document.createElement('button');
+const launcher_timer = document.createElement('span');
+launcher_container.classList.add('launcher__container');
+launcher_button.classList.add('launcher__button');
+launcher_timer.classList.add('launcher__timer');
+launcher_button.innerHTML = svg_btnPlay;
+launcher_timer.innerText = "01:38";
+launcher_container.appendChild(launcher_button);
+launcher_container.appendChild(launcher_timer);
+global_container.appendChild(launcher_container);
+
+// Fonction de l'affichage du player
+launcher_button.addEventListener('click', function(){
+    document.body.appendChild(elAudio);
+    document.body.appendChild(player__container);
+    URLToResolve(elAudio, elAudio.src);
+});
+
 
 // Ajout du container dans le body
 document.body.appendChild(global_container);
@@ -230,5 +251,5 @@ function formatTime(time) {
 // Lorsque le DOM a fini de se charger on le parcourt à la recherche de tous les players
 // On exécute pour chacun la fonction URLToResolve() qui va chercher l'URL streamable du média SoundCloud
 document.addEventListener("DOMContentLoaded", function() {
-    URLToResolve(elAudio, elAudio.src);
+    //URLToResolve(elAudio, elAudio.src);
 });

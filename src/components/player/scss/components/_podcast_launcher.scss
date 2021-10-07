@@ -1,0 +1,38 @@
+@use '../abstract' as *;
+
+.launcher__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.launcher__button {
+    padding: 10px;
+    margin-right: 20px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 2px solid $clr-primary;
+    border-radius: 50%;
+    color: $clr-primary;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background .25s ease-in-out, border-color .25s ease-in-out;
+
+    & > svg {
+        width: 7px;
+    }
+
+    &:hover,
+    &:focus {
+        background: $clr-primary;
+        border-color: $title-background-color;
+
+        & > svg {
+            color: $title-background-color;
+        }
+    }
+}
