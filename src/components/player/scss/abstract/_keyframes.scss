@@ -1,4 +1,13 @@
 @keyframes slidein {
-    from { bottom: -100px; }
-    to { bottom: 0; }
+    0% { 
+        opacity: 0;
+        bottom: -100px;
+    }
+    30% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        bottom: 0;
+    }
 }

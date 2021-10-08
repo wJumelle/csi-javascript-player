@@ -15,7 +15,7 @@
     overflow: hidden;
     background: inherit;
     color: $clr-primary;
-    animation: .5s ease-in-out slidein forwards;
+    animation: .75s ease-in-out slidein forwards;
 
     &::before {
         content: '';
