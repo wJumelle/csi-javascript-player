@@ -15,7 +15,7 @@
     overflow: hidden;
     background: inherit;
     color: $clr-primary;
-    animation: .75s ease-in-out slidein forwards;
+    animation: calc(3 * #{$timing-animation}) ease-in-out slidein forwards;
 
     &::before {
         content: '';
@@ -24,9 +24,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        // box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
         background: $title-background-color;
-        // filter: blur(75px);
         z-index: -1;
     }
 }
@@ -38,9 +36,14 @@
     color: $clr-primary;
     font-size: 1rem;
     cursor: pointer;
+    transition: color $timing-animation ease-in-out;
 
     & > svg {
         width: 25px;
+    }
+
+    &:hover, &:focus {
+        color: $clr-secondary;
     }
 }
 
@@ -55,6 +58,10 @@
     height: 10px;
 }
 
+.player__progressBar-innerContainer {
+    background: $title-background-color;
+}
+
 .player__progressBar.controls {
     width: 0%;
     height: 10px;
@@ -63,14 +70,39 @@
     transition: width 1s linear;
 }
 
-.player__progressBar-buffer.controls {
+.player__progressBar-buffer {
     width: 100%;
     height: 10px;
     background: $clr-primary;
+    transition: width calc(2 * #{$timing-animation}) ease-in-out;
+}
+
+.player__datas-container {
+    p {
+        margin-block: 3px;
+        font-family: "Montserrat Alternate", sans-serif;
+
+        &.player__name {
+            font-size: 1.5rem;
+            color: $clr-secondary;
+            font-family: "Montserrat Alternate Extra-Bold", sans-serif;
+        }
+    }
 }
 
 .player__timer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
     flex: 1 1 auto;
     text-align: right;
     font-family: "Montserrat Alternate Bold", sans-serif;
+}
+
+.player__timer-currentTime {
+    font-size: 1.5rem;
+    color: $clr-secondary;
+    font-family: "Montserrat Alternate Extra-Bold", sans-serif;
 }

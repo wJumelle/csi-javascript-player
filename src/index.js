@@ -44,6 +44,8 @@ const launcher_name_aud1 = document.createElement('span');
 launcher_container_aud1.classList.add('launcher__container');
 launcher_button_aud1.classList.add('launcher__button');
 launcher_button_aud1.dataset.src = Audio_1;
+launcher_button_aud1.dataset.name = "Warriors ft. Imagine Dragons";
+launcher_button_aud1.dataset.date = "2014";
 launcher_name_aud1.classList.add('launcher__name');
 launcher_button_aud1.innerHTML = player_ui.svg.btnPlay;
 launcher_name_aud1.innerText = "Warriors ft. Imagine Dragons (2014)";
@@ -57,6 +59,8 @@ const launcher_name_aud2 = document.createElement('span');
 launcher_container_aud2.classList.add('launcher__container');
 launcher_button_aud2.classList.add('launcher__button');
 launcher_button_aud2.dataset.src = Audio_2;
+launcher_button_aud2.dataset.name = "Legends Never Die ft. Against The Current";
+launcher_button_aud2.dataset.date = "2017";
 launcher_name_aud2.classList.add('launcher__name');
 launcher_button_aud2.innerHTML = player_ui.svg.btnPlay;
 launcher_name_aud2.innerText = "Legends Never Die ft. Against The Current (2017)";
@@ -70,6 +74,8 @@ const launcher_name_aud3 = document.createElement('span');
 launcher_container_aud3.classList.add('launcher__container');
 launcher_button_aud3.classList.add('launcher__button');
 launcher_button_aud3.dataset.src = Audio_3;
+launcher_button_aud3.dataset.name = "RISE ft. The Glitch Mob";
+launcher_button_aud3.dataset.date = "2018";
 launcher_name_aud3.classList.add('launcher__name');
 launcher_button_aud3.innerHTML = player_ui.svg.btnPlay;
 launcher_name_aud3.innerText = "RISE ft. The Glitch Mob (2018)";
@@ -83,6 +89,8 @@ const launcher_name_aud4 = document.createElement('span');
 launcher_container_aud4.classList.add('launcher__container');
 launcher_button_aud4.classList.add('launcher__button');
 launcher_button_aud4.dataset.src = Audio_4;
+launcher_button_aud4.dataset.name = "Burn it all down ft. PVRIS";
+launcher_button_aud4.dataset.date = "2021";
 launcher_name_aud4.classList.add('launcher__name');
 launcher_button_aud4.innerHTML = player_ui.svg.btnPlay;
 launcher_name_aud4.innerText = "Burn it all down ft. PVRIS (2021)";
@@ -103,7 +111,7 @@ setTimeout( function(){
                 deletePlayer();
             }
             
-            createPlayer(e.dataset.src, document.body);
+            createPlayer(e.dataset, document.body);
         });
     });
 }, 100 );
@@ -120,7 +128,7 @@ console.log("%cBy Wilfried Jumelle - wjumelle@gmail.com", "font-size: 1rem; font
  */
 
 // Fonction qui créé et ajoute l'ensemble de l'UI du player au DOM
-function createPlayer(elSrc, container) {
+function createPlayer(elDatas, container) {
     // Création des éléments du player
     const player__container = document.createElement('div');
     const player__btnPlayPause = document.createElement('button');
@@ -131,6 +139,9 @@ function createPlayer(elSrc, container) {
     const player__btnForward_container = document.createElement('div');
     const player__btnVolume = document.createElement('button');
     const player__btnVolume_container = document.createElement('div');
+    const player__name = document.createElement('p');
+    const player__date = document.createElement('p');
+    const player__datas_container = document.createElement('div');
     const player__timer_currentTime = document.createElement('span');
     const player__timer_totalTime = document.createElement('span');
     const player__timer_container = document.createElement('div');
@@ -149,10 +160,14 @@ function createPlayer(elSrc, container) {
     player__btnForward_container.classList.add('player__btnForward-container');
     player__btnVolume.classList.add('controls', 'player__btnVolume', 'isMedium');
     player__btnVolume_container.classList.add('player__btnVolume-container');
+    player__name.classList.add('player__name');
+    player__name.id = "player__name";
+    player__date.classList.add('player__date');
+    player__datas_container.classList.add('player__datas-container');
     player__timer_currentTime.classList.add('player__timer-currentTime');
     player__timer_container.classList.add('player__timer-container');
     player__progressBar.classList.add('controls', 'player__progressBar');
-    player__progressBar_buffer.classList.add('controls', 'player__progressBar-buffer');
+    player__progressBar_buffer.classList.add('player__progressBar-buffer');
     player__progressBar_container.classList.add('player__progressBar-container');
     player__progressBar_innerContainer.classList.add('player__progressBar-innerContainer');
 
@@ -161,6 +176,8 @@ function createPlayer(elSrc, container) {
     player__btnBackward.innerHTML = player_ui.svg.btnBackward;
     player__btnForward.innerHTML = player_ui.svg.btnForward;
     player__btnVolume.innerHTML = player_ui.svg.btnVolume.medium;
+    player__name.innerHTML = elDatas.name;
+    player__date.innerHTML = elDatas.date;
     player__timer_currentTime.innerHTML = "0:00";
     player__timer_totalTime.innerHTML = "0:00";
 
@@ -169,6 +186,8 @@ function createPlayer(elSrc, container) {
     player__btnBackward_container.appendChild(player__btnBackward);
     player__btnForward_container.appendChild(player__btnForward);
     player__btnVolume_container.appendChild(player__btnVolume);
+    player__datas_container.appendChild(player__name);
+    player__datas_container.appendChild(player__date);
     player__timer_container.appendChild(player__timer_currentTime);
     player__timer_container.appendChild(document.createTextNode(' / '));
     player__timer_container.appendChild(player__timer_totalTime);
@@ -182,11 +201,12 @@ function createPlayer(elSrc, container) {
     player__container.appendChild(player__btnPlayPause_container);
     player__container.appendChild(player__btnForward_container);
     player__container.appendChild(player__btnVolume_container);
+    player__container.appendChild(player__datas_container);
     player__container.appendChild(player__timer_container);
 
     // On créé l'élément audio sans SRC
     const elAudio = new Audio();
-    elAudio.src = elSrc;
+    elAudio.src = elDatas.src;
     elAudio.volume = 0.1;
     elAudio.id = "audioElement";
 
@@ -205,6 +225,8 @@ function createPlayer(elSrc, container) {
         currentTime: player__timer_currentTime,
         totalTime: player__timer_totalTime,
         currentVolume: elAudio.volume,
+        name: elDatas.name,
+        date: elDatas.date,
     };
 
     // On call l'API SoundCloud - Version CSI
@@ -237,8 +259,6 @@ function URLToResolve(elem, url, player){
 // Fonction qui initialise le player Plyr
 // Params : l'élément <audio> les options de configuration de Plyr et l'objet player pour ajout des eventListeners sur l'UI
 function initPlayer(elem, player) {
-    console.log('initPlayer()', elem);
-
     // On bind les boutons 
     player.btnPlayPause.addEventListener('click', function(){
         if(elem.paused) {
