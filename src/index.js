@@ -1,5 +1,9 @@
 import './components/player/scss/main.scss';
 import MyLauncher from './components/starter/images/launcher.png';
+import Audio_1 from './components/player/audios/warriors-imagine_dragons_2014.mp3';
+import Audio_2 from './components/player/audios/legends_never_die-against_the_current_2017.mp3';
+import Audio_3 from './components/player/audios/rise-the_glitch_2018.mp3';
+import Audio_4 from './components/player/audios/burn_it_all_down_2021.mp3';
 
 // Template Lab
 const title = document.createElement('h1');
@@ -32,23 +36,77 @@ let player_ui = {
     }
 };
 
-// Ajout du bouton de lancement du podcast + durée
-const launcher_container = document.createElement('div'); 
-const launcher_button = document.createElement('button');
-const launcher_timer = document.createElement('span');
-launcher_container.classList.add('launcher__container');
-launcher_button.classList.add('launcher__button');
-launcher_timer.classList.add('launcher__timer');
-launcher_button.innerHTML = player_ui.svg.btnPlay;
-launcher_timer.innerText = "01:38";
-launcher_container.appendChild(launcher_button);
-launcher_container.appendChild(launcher_timer);
-global_container.appendChild(launcher_container);
+// Ajout des audios
+// Warriors ft. Imagine Dragons (2014)
+const launcher_container_aud1 = document.createElement('div');
+const launcher_button_aud1 = document.createElement('button');
+const launcher_name_aud1 = document.createElement('span');
+launcher_container_aud1.classList.add('launcher__container');
+launcher_button_aud1.classList.add('launcher__button');
+launcher_button_aud1.dataset.src = Audio_1;
+launcher_name_aud1.classList.add('launcher__name');
+launcher_button_aud1.innerHTML = player_ui.svg.btnPlay;
+launcher_name_aud1.innerText = "Warriors ft. Imagine Dragons (2014)";
+launcher_container_aud1.appendChild(launcher_button_aud1);
+launcher_container_aud1.appendChild(launcher_name_aud1);
+
+// Legends Never Die ft. Against The Current (2017)
+const launcher_container_aud2 = document.createElement('div');
+const launcher_button_aud2 = document.createElement('button');
+const launcher_name_aud2 = document.createElement('span');
+launcher_container_aud2.classList.add('launcher__container');
+launcher_button_aud2.classList.add('launcher__button');
+launcher_button_aud2.dataset.src = Audio_2;
+launcher_name_aud2.classList.add('launcher__name');
+launcher_button_aud2.innerHTML = player_ui.svg.btnPlay;
+launcher_name_aud2.innerText = "Legends Never Die ft. Against The Current (2017)";
+launcher_container_aud2.appendChild(launcher_button_aud2);
+launcher_container_aud2.appendChild(launcher_name_aud2);
+
+// RISE ft. The Glitch Mob (2018)
+const launcher_container_aud3 = document.createElement('div');
+const launcher_button_aud3 = document.createElement('button');
+const launcher_name_aud3 = document.createElement('span');
+launcher_container_aud3.classList.add('launcher__container');
+launcher_button_aud3.classList.add('launcher__button');
+launcher_button_aud3.dataset.src = Audio_3;
+launcher_name_aud3.classList.add('launcher__name');
+launcher_button_aud3.innerHTML = player_ui.svg.btnPlay;
+launcher_name_aud3.innerText = "RISE ft. The Glitch Mob (2018)";
+launcher_container_aud3.appendChild(launcher_button_aud3);
+launcher_container_aud3.appendChild(launcher_name_aud3);
+
+// Burn it all down ft. PVRIS (2021)
+const launcher_container_aud4 = document.createElement('div');
+const launcher_button_aud4 = document.createElement('button');
+const launcher_name_aud4 = document.createElement('span');
+launcher_container_aud4.classList.add('launcher__container');
+launcher_button_aud4.classList.add('launcher__button');
+launcher_button_aud4.dataset.src = Audio_4;
+launcher_name_aud4.classList.add('launcher__name');
+launcher_button_aud4.innerHTML = player_ui.svg.btnPlay;
+launcher_name_aud4.innerText = "Burn it all down ft. PVRIS (2021)";
+launcher_container_aud4.appendChild(launcher_button_aud4);
+launcher_container_aud4.appendChild(launcher_name_aud4);
+
+global_container.appendChild(launcher_container_aud1);
+global_container.appendChild(launcher_container_aud2);
+global_container.appendChild(launcher_container_aud3);
+global_container.appendChild(launcher_container_aud4);
 
 // Fonction de l'affichage du player
-launcher_button.addEventListener('click', function(){
-    createPlayer("https://soundcloud.com/universcience-2/belle-lune-1", document.body);
-});
+setTimeout( function(){ 
+    document.querySelectorAll('.launcher__button').forEach(e => {
+        e.addEventListener('click', function(){
+            // Si un player est déjà en cours, alors on supprime l'ancien
+            if(document.querySelector('.player__container') !== null) {
+                deletePlayer();
+            }
+            
+            createPlayer(e.dataset.src, document.body);
+        });
+    });
+}, 100 );
 
 // Ajout du container dans le body
 document.body.appendChild(global_container);
@@ -129,6 +187,7 @@ function createPlayer(elSrc, container) {
     // On créé l'élément audio sans SRC
     const elAudio = new Audio();
     elAudio.src = elSrc;
+    elAudio.volume = 0.1;
     elAudio.id = "audioElement";
 
     // Ajout de l'audio et du player au container du DOM
@@ -145,10 +204,20 @@ function createPlayer(elSrc, container) {
         progressBar_buffer: player__progressBar_buffer,
         currentTime: player__timer_currentTime,
         totalTime: player__timer_totalTime,
+        currentVolume: elAudio.volume,
     };
 
-    // On call l'API SoundCloud
-    URLToResolve(elAudio, elAudio.src, player);
+    // On call l'API SoundCloud - Version CSI
+    // URLToResolve(elAudio, elAudio.src, player);
+
+    // On initialise le player
+    initPlayer(elAudio, player);
+}
+
+// Fonction qui supprime un ancien player
+function deletePlayer() {
+    document.getElementById('audioElement').remove();
+    document.querySelector('.player__container').remove();
 }
 
 /**
@@ -204,7 +273,7 @@ function initPlayer(elem, player) {
             elem.volume = 0;
             player.btnVolume.innerHTML = player_ui.svg.btnVolume.muted;
         } else {
-            elem.volume = .5;
+            elem.volume = player.currentVolume;
             player.btnVolume.innerHTML = player_ui.svg.btnVolume.medium;
         }
     });
