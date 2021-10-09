@@ -222,6 +222,7 @@ function createPlayer(elDatas, container) {
         btnVolume: player__btnVolume,
         progressBar: player__progressBar,
         progressBar_buffer: player__progressBar_buffer,
+        progressBar_innerContainer: player__progressBar_innerContainer,
         currentTime: player__timer_currentTime,
         totalTime: player__timer_totalTime,
         currentVolume: elAudio.volume,
@@ -298,6 +299,16 @@ function initPlayer(elem, player) {
         }
     });
 
+    player.progressBar_innerContainer.addEventListener('click', function(e){
+        var containerPgBarWidth = this.offsetWidth,
+            containerPgBarPosX = getElementPosition(this, 'x'), 
+            mouseX = getMousePosition(e, 'x'),
+            posX = mouseX - containerPgBarPosX;
+        var percent = (posX * 100) / containerPgBarWidth;
+
+        changeCurrentTime(elem, percent);
+    });
+
     // On bind des events liés au player
 	elem.addEventListener('error', function(event) {
 		var errorStatus = "initPlayer JS : Player ERORR";
@@ -332,19 +343,28 @@ function initPlayer(elem, player) {
 }
 
 // Fonction de mise à jours de la bar de progression pour l'avancée
+// Params : la progressBar, la progression, le currentTime, le currentTime % et la durée totale
 function updateProgress(bar, prog, timer, curr, duration) {
     bar.style.width = prog+'%';
     timer.innerHTML = formatTime(curr) + ' / ' + formatTime(duration);
 }
 
 // Fonction de mise à jours de la bar de loaded
+// Params : la progressBar et la progression
 function updateBuffer(bar, prog) {
     bar.style.width = prog+'%';
 }
 
+// Fonction qui gère le changement de currenttime au click sur la pgBar
+// Params : l'élément <audio> et le pourcentage actuel dans l'audio
+function changeCurrentTime(elem, percent) {
+    elem.currentTime = Math.round((percent * elem.duration) / 100);
+}
+
 // Fonction de formattage de l'affichage de la date
+// Params : time en secondes
 function formatTime(time) {
-    var hours = Math.floor(time / 3600),
+    let hours = Math.floor(time / 3600),
         mins  = Math.floor((time % 3600) / 60),
         secs  = Math.floor(time % 60);
 
@@ -360,6 +380,41 @@ function formatTime(time) {
         return hours + ':' + mins + ':' + secs; 
     } else {
         return mins + ':' + secs; 
+    }
+}
+
+// Fonnction qui retourne la position x et / ou y d'un élément
+// Tant qu'un élément parent existe, on accumule sa valeur de son positionnement en X
+// Params : l'élément à évaluer et l'axe à retourner
+function getElementPosition(elem, axis) {
+    let x = 0,
+        y = 0;
+
+    do {
+        x += elem.offsetLeft;
+        y += elem.offsetTop;
+    } while (elem = elem.offsetParent);
+
+    if(axis) {
+        if(axis == 'x') {
+            return x;
+        } else if(axis == 'y') {
+            return y;
+        } else { return {x: x, y: y}; }
+    }
+}
+
+// Fonction qui retourn la position x et / ou y du curseur de la souris
+// pageX et pageY correspondent à la position dans la page
+// screenX et screenY correspondent à la position dans l'écran du périphérique
+// Params : l'event click et l'axe à retourner
+function getMousePosition(e, axis) {
+    if(axis) {
+        if(axis == 'x') {
+            return e.pageX;
+        } else if(axis == 'y') {
+            return e.pageY;
+        } else { return {x: e.pageX, y: e.pageY}; }
     }
 }
 
