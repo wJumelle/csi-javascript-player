@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SRC = path.resolve(__dirname, 'src/main/js');
 
 let config = {
     // Indication des points d'entrée de notre application
@@ -68,6 +69,15 @@ config.module.rules.push({
     // On paramètre l'output des assets
     generator: {
         filename: 'assets/images/[contenthash][ext][query]',
+    },
+});
+
+// Loader pour les fichiers de son
+config.module.rules.push({
+    test: /\.(mp3|ogg)$/i,
+    type: 'asset/resource',
+    generator: {
+        filename: 'assets/audios/[name][ext][query]',
     },
 });
 
