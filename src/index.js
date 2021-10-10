@@ -272,18 +272,18 @@ function initPlayer(elem, player) {
     });
 
     player.btnBackward.addEventListener('click', function(){
-        const cur = elem.currentime;
-        const nextTimer = 0;
+        const cur = elem.currentTime;
+        let nextTimer = 0;
         (cur - 15 < 0) ? nextTimer = 0 : nextTimer = (cur - 15);
-        elem.currentime = nextTimer;
+        elem.currentTime = nextTimer;
     });
 
     player.btnForward.addEventListener('click', function(){
-        const cur = elem.currentime;
+        const cur = elem.currentTime;
         const dur = elem.duration;
-        const nextTimer = 0;
+        let nextTimer = 0;
         (cur + 15 > dur) ? nextTimer = 0 : nextTimer = (cur + 15);
-        elem.currentime = nextTimer;
+        elem.currentTime = nextTimer;
         if(nextTimer == 0) {
             elem.pause();
         }
@@ -332,7 +332,6 @@ function initPlayer(elem, player) {
         if(elem.currentTime) {
             player.currentTime.innerHTML = formatTime(elem.currentTime);
         } else {
-            console.log('Lol');
             player.currentTime.innerHTML = formatTime(0);
         }
     });
