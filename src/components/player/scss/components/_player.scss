@@ -12,7 +12,6 @@
     align-items: center;
     gap: 20px;
     padding: 35px 25px 25px;
-    overflow: hidden;
     background: inherit;
     color: $clr-primary;
     animation: calc(3 * #{$timing-animation}) ease-in-out slidein forwards;
@@ -105,3 +104,159 @@
     color: $clr-secondary;
     font-family: "Montserrat Alternate Extra-Bold", sans-serif;
 }
+
+.player__progressBar-input {
+    -webkit-appearance: none;
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    z-index: 15;
+}
+
+.player__progressBar-input {
+    -webkit-appearance: none; /* stylelint-disable-line */
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    // `color` property is used in JS to populate lower fill for WebKit
+    color: yellow;
+    display: block;
+    height: 10px;
+    margin: 0;
+    min-width: 0;
+    padding: 0;
+    transition: box-shadow 0.3s ease;
+    width: 100%;
+  
+    &::-webkit-slider-runnable-track {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        height: 10px;
+        transition: box-shadow 0.3s ease;
+        user-select: none;
+        background-image: linear-gradient(to right, currentColor var(--value, 0%), transparent var(--value, 50%));
+    }
+  
+    &::-webkit-slider-thumb {
+        background: red;
+        border: 0;
+        border-radius: 100%;
+        box-shadow: 0;
+        height: 20px;
+        position: relative;
+        transition: all 0.2s ease;
+        width: 20px;
+        -webkit-appearance: none; /* stylelint-disable-line */
+        margin-top: calc(((#{20px} - #{10px}) / 2) * -1);
+    }
+  
+    // Mozilla
+    &::-moz-range-track {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        height: 10px;
+        transition: box-shadow 0.3s ease;
+        user-select: none;
+    }
+  
+    &::-moz-range-thumb {
+        background: red;
+        border: 0;
+        border-radius: 100%;
+        box-shadow: 0;
+        height: 10px;
+        position: relative;
+        transition: all 0.2s ease;
+        width: 10px;
+    }
+  
+    &::-moz-range-progress {
+      background: currentColor;
+      border-radius: 0;
+      height: 10px;
+    }
+  
+    // Microsoft
+    &::-ms-track {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        height: 10px;
+        transition: box-shadow 0.3s ease;
+        user-select: none;
+      color: transparent;
+    }
+  
+    &::-ms-fill-upper {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        height: 10px;
+        transition: box-shadow 0.3s ease;
+        user-select: none;
+    }
+  
+    &::-ms-fill-lower {
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        height: 10px;
+        transition: box-shadow 0.3s ease;
+        user-select: none;
+  
+      background: currentColor;
+    }
+  
+    &::-ms-thumb {
+        background: red;
+        border: 0;
+        border-radius: 100%;
+        box-shadow: 0;
+        height: 10px;
+        position: relative;
+        transition: all 0.2s ease;
+        width: 10px;
+        // For some reason, Edge uses the -webkit margin above
+        margin-top: 0;
+    }
+  
+    &::-ms-tooltip {
+      display: none;
+    }
+  
+    // Focus styles
+    &:focus {
+      outline: 0;
+    }
+  
+    &::-moz-focus-outer {
+      border: 0;
+    }
+  
+    &.plyr__tab-focus {
+      &::-webkit-slider-runnable-track {
+        outline-color: violet;
+        outline-offset: 2px;
+        outline-style: dotted;
+        outline-width: 3px;
+      }
+  
+      &::-moz-range-track {
+        outline-color: violet;
+        outline-offset: 2px;
+        outline-style: dotted;
+        outline-width: 3px;
+      }
+  
+      &::-ms-track {
+        outline-color: violet;
+        outline-offset: 2px;
+        outline-style: dotted;
+        outline-width: 3px;
+      }
+    }
+  }

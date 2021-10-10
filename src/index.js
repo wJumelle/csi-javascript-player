@@ -146,6 +146,7 @@ function createPlayer(elDatas, container) {
     const player__timer_totalTime = document.createElement('span');
     const player__timer_container = document.createElement('div');
     const player__progressBar = document.createElement('div');
+    const player__progressInput = document.createElement('input');
     const player__progressBar_buffer = document.createElement('div');
     const player__progressBar_container = document.createElement('div');
     const player__progressBar_innerContainer = document.createElement('div');
@@ -167,6 +168,7 @@ function createPlayer(elDatas, container) {
     player__timer_currentTime.classList.add('player__timer-currentTime');
     player__timer_container.classList.add('player__timer-container');
     player__progressBar.classList.add('controls', 'player__progressBar');
+    player__progressInput.classList.add('player__progressBar-input');
     player__progressBar_buffer.classList.add('player__progressBar-buffer');
     player__progressBar_container.classList.add('player__progressBar-container');
     player__progressBar_innerContainer.classList.add('player__progressBar-innerContainer');
@@ -180,6 +182,7 @@ function createPlayer(elDatas, container) {
     player__date.innerHTML = elDatas.date;
     player__timer_currentTime.innerHTML = "0:00";
     player__timer_totalTime.innerHTML = "0:00";
+    player__progressInput.setAttribute('type', 'range');
 
     // On ajoute les éléments aux différents containers
     player__btnPlayPause_container.appendChild(player__btnPlayPause);
@@ -191,6 +194,7 @@ function createPlayer(elDatas, container) {
     player__timer_container.appendChild(player__timer_currentTime);
     player__timer_container.appendChild(document.createTextNode(' / '));
     player__timer_container.appendChild(player__timer_totalTime);
+    player__progressBar_innerContainer.appendChild(player__progressInput);
     player__progressBar_innerContainer.appendChild(player__progressBar);
     player__progressBar_innerContainer.appendChild(player__progressBar_buffer);
     player__progressBar_container.appendChild(player__progressBar_innerContainer);
