@@ -164,7 +164,7 @@
     }
   
     &::-moz-range-thumb {
-        background: red;
+        background: $clr-secondary;
         border: 0;
         border-radius: 100%;
         box-shadow: 0;
@@ -212,7 +212,7 @@
     }
   
     &::-ms-thumb {
-        background: red;
+        background: $clr-secondary;
         border: 0;
         border-radius: 100%;
         box-shadow: 0;
