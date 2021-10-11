@@ -183,6 +183,9 @@ function createPlayer(elDatas, container) {
     player__timer_currentTime.innerHTML = "0:00";
     player__timer_totalTime.innerHTML = "0:00";
     player__progressInput.setAttribute('type', 'range');
+    player__progressInput.setAttribute('min', '0');
+    player__progressInput.setAttribute('max', '100');
+    player__progressInput.setAttribute('value', '0');
 
     // On ajoute les éléments aux différents containers
     player__btnPlayPause_container.appendChild(player__btnPlayPause);
@@ -225,6 +228,7 @@ function createPlayer(elDatas, container) {
         btnForward: player__btnForward,
         btnVolume: player__btnVolume,
         progressBar: player__progressBar,
+        progressBarInput: player__progressInput,
         progressBar_buffer: player__progressBar_buffer,
         progressBar_innerContainer: player__progressBar_innerContainer,
         currentTime: player__timer_currentTime,
@@ -328,6 +332,9 @@ function initPlayer(elem, player) {
             buffered = elem.buffered.end(elem.buffered),
             fracBuff = buffered / duration,
             progressBuffer = Math.round(fracBuff * 100);
+
+        player.progressBarInput.setAttribute('value', progress);
+        player.progressBarInput.style.setProperty('--value', progress+'%');
 
         updateProgress(player.progressBar, progress, player.currentTime, currTime, duration);
         updateBuffer(player.progressBar_buffer, progressBuffer);
