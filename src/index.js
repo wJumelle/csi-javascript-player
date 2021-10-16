@@ -36,6 +36,9 @@ let player_ui = {
     }
 };
 
+// Création variable suivi du launcher en cours
+let launcher;
+
 // Ajout des audios
 // Warriors ft. Imagine Dragons (2014)
 const launcher_container_aud1 = document.createElement('div');
@@ -105,13 +108,18 @@ global_container.appendChild(launcher_container_aud4);
 // Fonction de l'affichage du player
 setTimeout( function(){ 
     document.querySelectorAll('.launcher__button').forEach(e => {
-        e.addEventListener('click', function(){
+        e.addEventListener('click', function(evt){
             // Si un player est déjà en cours, alors on supprime l'ancien
             if(document.querySelector('.player__container') !== null) {
                 deletePlayer();
             }
             
+            // Création du player
             createPlayer(e.dataset, document.body);
+
+            // Update de l'élément à l'intérieur du launcher
+            launcher = evt.target;
+            launcher.innerHTML = player_ui.svg.btnPause;
         });
     });
 }, 100 );
@@ -145,7 +153,7 @@ function createPlayer(elDatas, container) {
     const player__timer_currentTime = document.createElement('span');
     const player__timer_totalTime = document.createElement('span');
     const player__timer_container = document.createElement('div');
-    const player__progressBar = document.createElement('div');
+    //const player__progressBar = document.createElement('div');
     const player__progressInput = document.createElement('input');
     const player__progressBar_buffer = document.createElement('div');
     const player__progressBar_container = document.createElement('div');
@@ -167,7 +175,7 @@ function createPlayer(elDatas, container) {
     player__datas_container.classList.add('player__datas-container');
     player__timer_currentTime.classList.add('player__timer-currentTime');
     player__timer_container.classList.add('player__timer-container');
-    player__progressBar.classList.add('controls', 'player__progressBar');
+    //player__progressBar.classList.add('controls', 'player__progressBar');
     player__progressInput.classList.add('player__progressBar-input');
     player__progressBar_buffer.classList.add('player__progressBar-buffer');
     player__progressBar_container.classList.add('player__progressBar-container');
@@ -198,7 +206,7 @@ function createPlayer(elDatas, container) {
     player__timer_container.appendChild(document.createTextNode(' / '));
     player__timer_container.appendChild(player__timer_totalTime);
     player__progressBar_innerContainer.appendChild(player__progressInput);
-    player__progressBar_innerContainer.appendChild(player__progressBar);
+    //player__progressBar_innerContainer.appendChild(player__progressBar);
     player__progressBar_innerContainer.appendChild(player__progressBar_buffer);
     player__progressBar_container.appendChild(player__progressBar_innerContainer);
 
@@ -227,7 +235,7 @@ function createPlayer(elDatas, container) {
         btnBackward: player__btnBackward,
         btnForward: player__btnForward,
         btnVolume: player__btnVolume,
-        progressBar: player__progressBar,
+        //progressBar: player__progressBar,
         progressBarInput: player__progressInput,
         progressBar_buffer: player__progressBar_buffer,
         progressBar_innerContainer: player__progressBar_innerContainer,
@@ -249,6 +257,9 @@ function createPlayer(elDatas, container) {
 function deletePlayer() {
     document.getElementById('audioElement').remove();
     document.querySelector('.player__container').remove();
+
+    // Reset de l'UI
+    launcher.innerHTML = player_ui.svg.btnPlay;
 }
 
 /**
@@ -270,11 +281,14 @@ function URLToResolve(elem, url, player){
 function initPlayer(elem, player) {
     // On bind les boutons 
     player.btnPlayPause.addEventListener('click', function(){
+        console.log('click btn play/pause');
         if(elem.paused) {
             elem.play();
+            launcher.innerHTML = player_ui.svg.btnPause;
             player.btnPlayPause.innerHTML = player_ui.svg.btnPause;
         } else {
             elem.pause();
+            launcher.innerHTML = player_ui.svg.btnPlay;
             player.btnPlayPause.innerHTML = player_ui.svg.btnPlay;
         }
     });
@@ -318,12 +332,36 @@ function initPlayer(elem, player) {
     });
 
     // On bind des events liés au player
-	elem.addEventListener('error', function(event) {
+    elem.addEventListener('play', function(){
+        console.log('event play');
+
+        // Mise à jours de l'état de l'UI des boutons play/pause
+        launcher.innerHTML = player_ui.svg.btnPause;
+        player.btnPlayPause.innerHTML = player_ui.svg.btnPause;
+    });
+
+    elem.addEventListener('playing', function(){
+        console.log('event playing');
+
+        // Mise à jours de l'état de l'UI des boutons play/pause
+        launcher.innerHTML = player_ui.svg.btnPause;
+        player.btnPlayPause.innerHTML = player_ui.svg.btnPause;
+    });
+
+    elem.addEventListener('pause', function(){
+        console.log('event pause');
+        
+        // Mise à jours de l'état de l'UI des boutons play/pause
+        launcher.innerHTML = player_ui.svg.btnPlay;
+        player.btnPlayPause.innerHTML = player_ui.svg.btnPlay;
+    });
+
+	elem.addEventListener('error', function() {
 		var errorStatus = "initPlayer JS : Player ERORR";
 		console.error(errorStatus);
 	});
 
-    elem.addEventListener('timeupdate', function(event) {
+    elem.addEventListener('timeupdate', function() {
         // Mise à jour de la progressBar
         var duration = elem.duration,
             currTime = elem.currentTime,
@@ -336,7 +374,7 @@ function initPlayer(elem, player) {
         player.progressBarInput.setAttribute('value', progress);
         player.progressBarInput.style.setProperty('--value', progress+'%');
 
-        updateProgress(player.progressBar, progress, player.currentTime, currTime, duration);
+        //updateProgress(player.progressBar, progress, player.currentTime, currTime, duration);
         updateBuffer(player.progressBar_buffer, progressBuffer);
 
         // Mise à jour du currentTime
@@ -347,9 +385,16 @@ function initPlayer(elem, player) {
         }
     });
 
-	elem.addEventListener('canplay', function(event) {
+	elem.addEventListener('canplay', function() {
         player.totalTime.innerHTML = formatTime(elem.duration);
 	});
+
+    elem.addEventListener('ended', function(event){
+
+    });
+
+    // On lance la lecture de l'audio
+    elem.play();
 }
 
 // Fonction de mise à jours de la bar de progression pour l'avancée
