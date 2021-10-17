@@ -5,6 +5,8 @@ import Audio_2 from './components/player/audios/legends_never_die-against_the_cu
 import Audio_3 from './components/player/audios/rise-the_glitch_2018.mp3';
 import Audio_4 from './components/player/audios/burn_it_all_down_2021.mp3';
 
+// TODO Fix : progress bar, thumb doesn't follow progress after click
+
 // Template Lab
 const title = document.createElement('h1');
 const title_text =  document.createTextNode('Mise en place du player JavaScript');
@@ -325,6 +327,12 @@ function initPlayer(elem, player) {
             elem.volume = player.currentVolume;
             player.btnVolume.innerHTML = player_ui.svg.btnVolume.medium;
         }
+    });
+
+    player.progressBarInput.addEventListener('input', function(e){
+        console.log('input');
+        let percent = e.target.value;
+        changeCurrentTime(elem, percent);
     });
 
     player.btnClose.addEventListener('click', function(){

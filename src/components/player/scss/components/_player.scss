@@ -168,10 +168,10 @@
         border: 0;
         border-radius: 100%;
         box-shadow: 0;
-        height: 10px;
+        height: 20px;
         position: relative;
         transition: all 0.2s ease;
-        width: 10px;
+        width: 20px;
     }
   
     &::-moz-range-progress {
@@ -216,10 +216,10 @@
         border: 0;
         border-radius: 100%;
         box-shadow: 0;
-        height: 10px;
+        height: 20px;
         position: relative;
         transition: all 0.2s ease;
-        width: 10px;
+        width: 20px;
         // For some reason, Edge uses the -webkit margin above
         margin-top: 0;
     }
