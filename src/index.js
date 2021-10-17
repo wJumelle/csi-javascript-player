@@ -41,6 +41,7 @@ let player_ui = {
 
 // Création variable suivi du launcher en cours
 let launcher;
+let player;
 
 // Ajout des audios
 // Warriors ft. Imagine Dragons (2014)
@@ -247,7 +248,7 @@ function createPlayer(elDatas, container) {
     container.appendChild(player__container);
 
     // Création de la variable qui contiendra les éléments intéractifs
-    const player = {
+    player = {
         btnPlayPause: player__btnPlayPause,
         btnBackward: player__btnBackward,
         btnForward: player__btnForward,
@@ -262,6 +263,8 @@ function createPlayer(elDatas, container) {
         currentVolume: elAudio.volume,
         name: elDatas.name,
         date: elDatas.date,
+        firstElem: player__progressInput,
+        lastElem: player__close
     };
 
     // On call l'API SoundCloud - Version CSI
@@ -353,24 +356,19 @@ function initPlayer(elem, player) {
     });
 
     // On met en place le  piège au clavier pour l'accessibilité
-    player.progressBarInput.addEventListener('keyup', function(e){
-        var e = event || evt; // for trans-browser compatibility
-        var charCode = e.which || e.keyCode;
+    document.addEventListener('keydown', function(e){
 
-        console.log(charCode, e.shiftKey);
+        if (e.keyCode == 9 && e.target == player.firstElem) {
+			if(e.shiftKey) {
+				e.preventDefault();
+				player.lastElem.focus();
+			}
+		}
 
-        if (charCode == 9 && e.shiftKey == true) {
-            player.btnClose.focus();
-        }
-    });
-
-    player.btnClose.addEventListener('keyup', function(e){
-        var e = event || evt; // for trans-browser compatibility
-        var charCode = e.which || e.keyCode;
-
-        if (charCode == 9 ) {
-            player.progressBarInput.focus();
-        }
+		if (e.keyCode == 9 && e.target == player.lastElem) {
+			e.preventDefault();
+			player.firstElem.focus();
+		}
     });
 
     // player.progressBar_innerContainer.addEventListener('click', function(e){
