@@ -186,6 +186,16 @@ function createPlayer(elDatas, container) {
     player__progressBar_innerContainer.classList.add('player__progressBar-innerContainer');
     player__close.classList.add('controls', 'player__close');
 
+    // Choix de l'ordre d'affichage avec flex CSS
+    player__progressBar_container.style.order = 1;
+    player__btnBackward_container.style.order = 2;
+    player__btnPlayPause_container.style.order = 3;
+    player__btnForward_container.style.order = 4;
+    player__btnVolume_container.style.order = 5;
+    player__datas_container.style.order = 6;
+    player__timer_container.style.order = 7;
+    player__close.style.order = 8;
+
     // Mise en place du contenu des boutons
     player__btnPlayPause.innerHTML = player_ui.svg.btnPlay;
     player__btnBackward.innerHTML = player_ui.svg.btnBackward;
@@ -218,8 +228,8 @@ function createPlayer(elDatas, container) {
 
     // On ajoute tous les containers au player__container
     player__container.appendChild(player__progressBar_container);
-    player__container.appendChild(player__btnBackward_container);
     player__container.appendChild(player__btnPlayPause_container);
+    player__container.appendChild(player__btnBackward_container);
     player__container.appendChild(player__btnForward_container);
     player__container.appendChild(player__btnVolume_container);
     player__container.appendChild(player__datas_container);
@@ -342,6 +352,27 @@ function initPlayer(elem, player) {
         launcher.focus();
     });
 
+    // On met en place le  piège au clavier pour l'accessibilité
+    player.progressBarInput.addEventListener('keyup', function(e){
+        var e = event || evt; // for trans-browser compatibility
+        var charCode = e.which || e.keyCode;
+
+        console.log(charCode, e.shiftKey);
+
+        if (charCode == 9 && e.shiftKey == true) {
+            player.btnClose.focus();
+        }
+    });
+
+    player.btnClose.addEventListener('keyup', function(e){
+        var e = event || evt; // for trans-browser compatibility
+        var charCode = e.which || e.keyCode;
+
+        if (charCode == 9 ) {
+            player.progressBarInput.focus();
+        }
+    });
+
     // player.progressBar_innerContainer.addEventListener('click', function(e){
     //     var containerPgBarWidth = this.offsetWidth,
     //         containerPgBarPosX = getElementPosition(this, 'x'), 
@@ -417,6 +448,11 @@ function initPlayer(elem, player) {
 
     // On lance la lecture de l'audio
     elem.play();
+
+    // On focus le bouton play du player
+    setTimeout(function(){
+        player.btnPlayPause.focus();
+    }, 750);
 }
 
 // Fonction de mise à jours de la bar de progression pour l'avancée
