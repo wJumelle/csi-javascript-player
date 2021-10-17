@@ -410,8 +410,9 @@ function initPlayer(elem, player) {
         player.totalTime.innerHTML = formatTime(elem.duration);
 	});
 
-    elem.addEventListener('ended', function(event){
-
+    elem.addEventListener('ended', function(){
+        // Reset du currentTime à 0 à la fin de la lecture
+        elem.currentTime = 0;
     });
 
     // On lance la lecture de l'audio
