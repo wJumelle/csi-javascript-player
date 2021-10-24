@@ -5,6 +5,8 @@ import Audio_2 from './components/player/audios/legends_never_die-against_the_cu
 import Audio_3 from './components/player/audios/rise-the_glitch_2018.mp3';
 import Audio_4 from './components/player/audios/burn_it_all_down_2021.mp3';
 
+//import Plyr from './components/plyr/js/plyr.js';
+
 // TODO Fix : progress bar, thumb doesn't follow progress after click
 
 // Template Lab
