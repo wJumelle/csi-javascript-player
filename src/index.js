@@ -5,7 +5,9 @@ import Audio_2 from './components/player/audios/legends_never_die-against_the_cu
 import Audio_3 from './components/player/audios/rise-the_glitch_2018.mp3';
 import Audio_4 from './components/player/audios/burn_it_all_down_2021.mp3';
 
-//import Plyr from './components/plyr/js/plyr.js';
+// Plyr
+import Plyr from 'plyr';
+import './components/plyr/sass/plyr.scss';
 
 // TODO Fix : progress bar, thumb doesn't follow progress after click
 
@@ -121,7 +123,10 @@ setTimeout( function(){
             }
             
             // Création du player
-            createPlayer(e.dataset, document.body);
+            //createPlayer(e.dataset, document.body);
+
+            // Création du player plyr
+            createPlayerPlyr(e.dataset, document.body);
 
             // Update de l'élément à l'intérieur du launcher
             launcher = evt.target;
@@ -140,6 +145,23 @@ console.log("%cBy Wilfried Jumelle - wjumelle@gmail.com", "font-size: 1rem; font
 /**
  * Fonctions autour du player
  */
+
+// Fonction qui créé et ajoute le player plyr
+function createPlayerPlyr(elDatas, container) {
+    // On créé l'élément audio sans SRC
+    const elAudio = new Audio();
+    elAudio.src = elDatas.src;
+    elAudio.volume = 0.1;
+    elAudio.id = "audioElement";
+
+    // Ajout de l'audio et du player au container du DOM
+    container.appendChild(elAudio);
+
+    const configPlyr = {
+        controls: ['play', 'progress', 'current-time', 'mute'],
+    }
+    const playerPlyr = new Plyr('#audioElement', configPlyr);
+}
 
 // Fonction qui créé et ajoute l'ensemble de l'UI du player au DOM
 function createPlayer(elDatas, container) {

@@ -53,6 +53,7 @@ let config = {
     resolve: {
         // Si aucun symlink n'est déclaré toujours déclaré la propriété à false, cela améliore la rapidité de build
         symlinks: false,
+        mainFields: ['module', 'main'], // default ['browser', 'module', 'main']
     },
     performance: {
         // Les warnings exclus les fichiers .[map|jpg|png]
